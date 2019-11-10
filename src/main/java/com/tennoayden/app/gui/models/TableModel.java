@@ -1,6 +1,7 @@
 package com.tennoayden.app.gui.models;
 
 import business.models.*;
+import business.services.BibliothequeService;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -12,7 +13,7 @@ public class TableModel extends AbstractTableModel {
 
     public TableModel(Bibliotheque bibliotheque) {
         super();
-        this.bibliotheque = new ObjectFactory().createBibliotheque();
+        this.bibliotheque = BibliothequeService.getInstance().bibliotheque;
     }
 
     public int getRowCount() {

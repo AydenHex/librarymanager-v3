@@ -89,4 +89,8 @@ public class HomeView{
         jTable.repaint();
     }
 
+    public JMenuItem getFichierOuvrirMenu() {
+        return this.ouvrir;
+    }
+
 }
