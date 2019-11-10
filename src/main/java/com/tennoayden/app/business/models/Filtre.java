@@ -1,4 +1,4 @@
-package business.models;
+package com.tennoayden.app.business.models;
 
 import javax.swing.filechooser.FileFilter;
 import java.io.File;

@@ -6,7 +6,7 @@
 //
 
 
-package business.models;
+package com.tennoayden.app.business.models;
 
 import javax.xml.bind.annotation.XmlRegistry;
 

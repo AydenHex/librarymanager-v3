@@ -1,7 +1,7 @@
 package com.tennoayden.app.gui.models;
 
-import business.models.*;
-import business.services.BibliothequeService;
+import com.tennoayden.app.business.models.*;
+import com.tennoayden.app.business.services.BibliothequeService;
 
 import javax.swing.table.AbstractTableModel;
 

@@ -1,7 +1,7 @@
 package com.tennoayden.app.gui.controllers;
 
-import business.models.Filtre;
-import business.services.BibliothequeService;
+import com.tennoayden.app.business.models.Filtre;
+import com.tennoayden.app.business.services.BibliothequeService;
 import com.tennoayden.app.gui.models.TableModel;
 import com.tennoayden.app.gui.views.HomeView;
 
@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.xml.bind.JAXBException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.jar.JarException;
 
 public class HomeController {
     HomeView view;
