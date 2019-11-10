@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.11.09 à 01:25:31 PM CET 
+// Généré le : 2019.11.10 à 06:21:39 PM CET 
 //
 
 
@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
  *                   &lt;element name="colonne" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
  *                   &lt;element name="rangee" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
  *                   &lt;element name="url" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *                   &lt;element name="aqui" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
+ *                   &lt;element name="aqui" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *                   &lt;element name="status" type="{}statusType"/>
  *                 &lt;/sequence>
  *               &lt;/restriction>
@@ -66,7 +66,6 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@SuppressWarnings("ALL")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "livre"
@@ -135,7 +134,7 @@ public class Bibliotheque {
      *         &lt;element name="colonne" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
      *         &lt;element name="rangee" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
      *         &lt;element name="url" type="{http://www.w3.org/2001/XMLSchema}string"/>
-     *         &lt;element name="aqui" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
+     *         &lt;element name="aqui" type="{http://www.w3.org/2001/XMLSchema}string"/>
      *         &lt;element name="status" type="{}statusType"/>
      *       &lt;/sequence>
      *     &lt;/restriction>
@@ -173,8 +172,8 @@ public class Bibliotheque {
         protected short rangee;
         @XmlElement(required = true)
         protected String url;
-        @XmlSchemaType(name = "unsignedByte")
-        protected short aqui;
+        @XmlElement(required = true)
+        protected String aqui;
         @XmlElement(required = true)
         @XmlSchemaType(name = "string")
         protected StatusType status;
@@ -326,16 +325,24 @@ public class Bibliotheque {
         /**
          * Obtient la valeur de la propriété aqui.
          * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
          */
-        public short getAqui() {
+        public String getAqui() {
             return aqui;
         }
 
         /**
          * Définit la valeur de la propriété aqui.
          * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
          */
-        public void setAqui(short value) {
+        public void setAqui(String value) {
             this.aqui = value;
         }
 

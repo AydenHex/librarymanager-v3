@@ -35,7 +35,7 @@ public class TableModel extends AbstractTableModel {
             case 0:
                 return this.bibliotheque.getLivre().get(rowIndex).getTitre();
             case 1:
-                return this.bibliotheque.getLivre().get(rowIndex).getAuteur();
+                return this.bibliotheque.getLivre().get(rowIndex).getAuteur().getPrenom() + " " + this.bibliotheque.getLivre().get(rowIndex).getAuteur().getNom();
             case 2:
                 return this.bibliotheque.getLivre().get(rowIndex).getParution();
             case 3:

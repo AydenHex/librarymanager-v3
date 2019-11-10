@@ -4,24 +4,17 @@ import com.tennoayden.app.gui.models.TableModel;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
-public class HomeView{
-    //Home
-    private JFrame frame;
+public class HomeView extends JFrame{
 
     //MenuBar
     private JMenuBar menubar;
-    private JMenu fichier;
-    private JMenu edition;
-    private JMenu apropos;
-    private JMenuItem ouvrir;
-    private JMenuItem exporter;
-    private JMenuItem fermer;
-    private JMenuItem ajouterLivre;
-    private JMenuItem sauvegarder;
-    private JMenuItem sauvegarderSous;
-    private JMenuItem informations;
+    private JMenu fichier, edition, apropos;
+    private JMenuItem ouvrir, exporter, fermer, ajouterLivre, sauvegarder, sauvegarderSous, informations;
+    private JPopupMenu tableMenu;
+    private JMenuItem deleteItem;
 
     //Table
     private JPanel panTable;
@@ -30,12 +23,13 @@ public class HomeView{
 
     public HomeView(String titre, TableModel modelTable){
         // Set the frame
-        frame = new JFrame(titre);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        setTitle(titre);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setPreferredSize(new Dimension(1000, 500));
 
         //Set MenuBar UI
         menubar = new JMenuBar();
@@ -67,7 +61,12 @@ public class HomeView{
         menubar.add(edition);
         menubar.add(apropos);
 
-        frame.setJMenuBar(menubar);
+        setJMenuBar(menubar);
+
+        // Popup menu
+        tableMenu = new JPopupMenu();
+        deleteItem = new JMenuItem("Supprimer");
+        tableMenu.add(deleteItem);
 
         //set Table
         panTable = new JPanel();
@@ -77,11 +76,25 @@ public class HomeView{
         jTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         panTable.add(jScrollPane, BorderLayout.CENTER);
         panTable.setVisible(true);
+        jTable.setComponentPopupMenu(tableMenu);
+        jTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        jScrollPane.setPreferredSize(new Dimension(1000, 500));
 
-        frame.add(panTable);
+        //change width table
+        TableColumnModel tcm = jTable.getColumnModel();
+        tcm.getColumn(0).setPreferredWidth(100);
+        tcm.getColumn(1).setPreferredWidth(100);
+        tcm.getColumn(2).setPreferredWidth(20);
+        tcm.getColumn(3).setPreferredWidth(300);
+        tcm.getColumn(4).setPreferredWidth(100);
+        tcm.getColumn(5).setPreferredWidth(5);
+        tcm.getColumn(6).setPreferredWidth(5);
 
 
-        frame.pack();
+        add(panTable);
+
+
+        pack();
 
     }
     public void repaint() {
@@ -92,5 +105,14 @@ public class HomeView{
     public JMenuItem getFichierOuvrirMenu() {
         return this.ouvrir;
     }
+
+    public JMenuItem getEditionAjouterLivre() { return this.ajouterLivre; }
+
+    public JTable getTable() {
+        return jTable;
+    }
+
+    public JMenuItem getDeleteItem() { return deleteItem; }
+
 
 }

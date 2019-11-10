@@ -2,6 +2,7 @@ package com.tennoayden.app.business.services;
 
 
 import com.tennoayden.app.business.models.Bibliotheque;
+import com.tennoayden.app.business.models.ObjectFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -18,7 +19,7 @@ public class BibliothequeService
     // private constructor restricted to this class itself
     private BibliothequeService()
     {
-        bibliotheque = new Bibliotheque();
+        bibliotheque = new ObjectFactory().createBibliotheque();
 
     }
 
