@@ -10,8 +10,10 @@ import com.tennoayden.app.gui.views.HomeView;
 import sun.misc.FormattedFloatingDecimal;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class FormController {
     FormView view;
@@ -19,14 +21,14 @@ public class FormController {
     ObjectFactory of;
     HomeController hc;
 
-    public FormController(String titre, HomeController homeController) {
+    public FormController(String titre, HomeController homeController) throws IOException {
         of = new ObjectFactory();
         view = new FormView(homeController.view, titre);
         model = of.createBibliothequeLivre();
         hc = homeController;
         initController();
     }
-    public FormController(String titre, HomeController homeController, Bibliotheque.Livre livre) {
+    public FormController(String titre, HomeController homeController, Bibliotheque.Livre livre) throws IOException {
         of = new ObjectFactory();
         view = new FormView(homeController.view, titre);
         model = livre;
@@ -44,6 +46,13 @@ public class FormController {
         this.view.setRangee(model.getRangee());
         this.view.setStatus(model.getStatus());
         this.view.setAQui(model.getAqui());
+        this.view.setURL(model.getUrl());
+
+        ImageIcon imageIcon = new ImageIcon(model.getUrl()); // load the image to a imageIcon
+        Image image = imageIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        this.view.getImageIcon().setImage(newimg);
+
     }
 
     public void initController() {
@@ -98,6 +107,7 @@ public class FormController {
             model.setStatus(view.getStatus());
             model.setAqui(view.getAQui());
             model.setParution(view.getParution());
+            model.setUrl(view.getURL());
 
             if (view.getTitle() == "Ajouter un livre") {
                 BibliothequeService.getInstance().bibliotheque.getLivre().add(model);

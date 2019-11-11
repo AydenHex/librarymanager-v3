@@ -41,7 +41,9 @@ public class TableModel extends AbstractTableModel {
             case 3:
                 return this.bibliotheque.getLivre().get(rowIndex).getPresentation();
             case 4:
-                return this.bibliotheque.getLivre().get(rowIndex).getStatus();
+                return this.bibliotheque.getLivre().get(rowIndex).getStatus() == StatusType.PRETE ?
+                        this.bibliotheque.getLivre().get(rowIndex).getStatus() + "(" +this.bibliotheque.getLivre().get(rowIndex).getAqui() +")":
+                        this.bibliotheque.getLivre().get(rowIndex).getStatus();
             case 5:
                 return this.bibliotheque.getLivre().get(rowIndex).getRangee();
             case 6:

@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.xml.bind.JAXBException;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class HomeController {
     HomeView view;
@@ -40,13 +41,21 @@ public class HomeController {
             });
             view.getEditionAjouterLivre().addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    HomeController.this.ajouterLivre();
+                    try {
+                        HomeController.this.ajouterLivre();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
             view.getTable().addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent mouseEvent) {
-                    HomeController.this.modifierLivre(mouseEvent);
+                    try {
+                        HomeController.this.modifierLivre(mouseEvent);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 @Override
                 public void mousePressed(MouseEvent mouseEvent) {}
@@ -85,10 +94,10 @@ public class HomeController {
         this.reloadTable();
 
     }
-    public void ajouterLivre() {
+    public void ajouterLivre() throws IOException {
         new FormController("Test", this);
     }
-    public void modifierLivre(MouseEvent mouseEvent) {
+    public void modifierLivre(MouseEvent mouseEvent) throws IOException {
         JTable table =(JTable) mouseEvent.getSource();
         Point point = mouseEvent.getPoint();
         int row = table.rowAtPoint(point);
