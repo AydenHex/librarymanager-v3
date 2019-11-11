@@ -114,5 +114,9 @@ public class HomeView extends JFrame{
 
     public JMenuItem getDeleteItem() { return deleteItem; }
 
+    public JMenuItem getSauvegarder() { return this.sauvegarder; }
 
+    public JMenuItem getSauvegarderSous() { return this.sauvegarderSous; }
+
+    public JMenuItem getExporter() { return this.exporter; }
 }

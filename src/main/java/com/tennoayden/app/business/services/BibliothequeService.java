@@ -6,8 +6,11 @@ import com.tennoayden.app.business.models.ObjectFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BibliothequeService
 {
@@ -32,7 +35,7 @@ public class BibliothequeService
         return single_instance;
     }
 
-    public static void loadLivre(String path) throws JAXBException {
+    public void loadLivre(String path) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Bibliotheque.class);
         Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
         //reset bibliotheque
@@ -45,6 +48,26 @@ public class BibliothequeService
         {
             BibliothequeService.getInstance().bibliotheque.getLivre().add(emp);
         }
+    }
+    public void sauvegarderLivre(String path) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(Bibliotheque.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+        //Marshal the employees list in file
+        jaxbMarshaller.marshal(this.bibliotheque, new File(path));
+    }
+    public HashMap<Bibliotheque.Livre.Auteur, ArrayList<Bibliotheque.Livre>> getLivresAuteurs() {
+        HashMap<Bibliotheque.Livre.Auteur, ArrayList<Bibliotheque.Livre>> col = new HashMap<>();
+        for (Bibliotheque.Livre livre: this.bibliotheque.getLivre()) {
+            if (col.containsKey(livre.getAuteur())) {
+                col.get(livre.getAuteur()).add(livre);
+            } else {
+                col.put(livre.getAuteur(), new ArrayList<Bibliotheque.Livre>());
+                col.get(livre.getAuteur()).add(livre);
+            }
+        }
+        return col;
     }
 }

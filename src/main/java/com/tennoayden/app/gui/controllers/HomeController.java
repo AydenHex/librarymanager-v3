@@ -2,6 +2,7 @@ package com.tennoayden.app.gui.controllers;
 
 import com.tennoayden.app.business.models.Bibliotheque;
 import com.tennoayden.app.business.models.Filtre;
+import com.tennoayden.app.business.others.WordGenerator;
 import com.tennoayden.app.business.services.BibliothequeService;
 import com.tennoayden.app.business.services.ConfigService;
 import com.tennoayden.app.gui.models.TableModel;
@@ -33,7 +34,7 @@ public class HomeController {
             view.getFichierOuvrirMenu().addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        HomeController.this.chooseXML();
+                        chooseXML();
                     } catch (JAXBException ex) {
                         ex.printStackTrace();
                     }
@@ -42,7 +43,7 @@ public class HomeController {
             view.getEditionAjouterLivre().addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        HomeController.this.ajouterLivre();
+                        ajouterLivre();
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -72,6 +73,36 @@ public class HomeController {
                     supprimerLivre();
                 }
             });
+            view.getSauvegarderSous().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    try {
+                        sauvegarderSous();
+                    } catch (JAXBException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            view.getSauvegarder().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    try {
+                        sauvegarder();
+                    } catch (JAXBException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            view.getExporter().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    try {
+                        exporter();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
     }
 
     public void reloadTable() {
@@ -89,7 +120,8 @@ public class HomeController {
         JFileChooser choix = new JFileChooser();
         choix.addChoosableFileFilter(filtre);
         if(choix.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
-            BibliothequeService.loadLivre(choix.getSelectedFile().getAbsolutePath());
+            BibliothequeService.getInstance().loadLivre(choix.getSelectedFile().getAbsolutePath());
+            ConfigService.getInstance().path = choix.getSelectedFile().getAbsolutePath();
         }
         this.reloadTable();
 
@@ -119,6 +151,32 @@ public class HomeController {
             ConfigService.getInstance().modification = true;
         }
     }
+
+    public void sauvegarderSous() throws JAXBException {
+        JFileChooser choix = new JFileChooser();
+        if(choix.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
+           BibliothequeService.getInstance().sauvegarderLivre(choix.getSelectedFile().getAbsolutePath());
+            JOptionPane.showConfirmDialog(null,
+                    "Vos modification ont bien été sauvegarger");
+        }
+
+    }
+    public void sauvegarder() throws JAXBException {
+        if (ConfigService.getInstance().path.isEmpty()) {
+            sauvegarderSous();
+        } else {
+            BibliothequeService.getInstance().sauvegarderLivre(ConfigService.getInstance().path);
+        }
+        JOptionPane.showConfirmDialog(null,
+                "Vos modification ont bien été sauvegarger");
+    }
+    public void exporter() throws Exception {
+        JFileChooser choix = new JFileChooser();
+        if(choix.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
+            new WordGenerator(choix.getSelectedFile().getAbsolutePath());
+        }
+    }
+
 
 }
 
