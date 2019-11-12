@@ -6,6 +6,7 @@ import com.tennoayden.app.business.services.BibliothequeService;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.sl.usermodel.VerticalAlignment;
 import org.apache.poi.util.Units;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
 
@@ -15,18 +16,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class WordGenerator {
     XWPFDocument document;
     HashMap<Bibliotheque.Livre.Auteur, ArrayList<Bibliotheque.Livre>> data;
     int bookmarkId;
+    String nameFile;
 
-    public WordGenerator(String path) throws Exception {
+    public WordGenerator(String path, String name) throws Exception {
         document = new XWPFDocument();
         data = BibliothequeService.getInstance().getLivresAuteurs();
         bookmarkId = 0;
+        nameFile = name;
 
+        createHeaders();
         createPageDeGarde();
         addPageBreak();
         createSommaire();
@@ -58,7 +63,6 @@ public class WordGenerator {
         sommaireAuteurRun.setText("Mes auteurs");
         XWPFParagraph paragrafAuteurs = document.createParagraph();
         for (Bibliotheque.Livre.Auteur auteur : data.keySet()) {
-            System.out.println(auteur.getNom());
             XWPFHyperlinkRun hyperlinkrun = createHyperlinkRunToAnchor(paragrafAuteurs, auteur.getNom() + auteur.getPrenom());
             hyperlinkrun.setText(auteur.getPrenom() + " " + auteur.getNom());
             hyperlinkrun.setUnderline(UnderlinePatterns.SINGLE);
@@ -78,7 +82,6 @@ public class WordGenerator {
     }
 
     public void createBookDetails() throws IOException, InvalidFormatException {
-        XWPFParagraph detail = document.createParagraph();
 
         for (Bibliotheque.Livre.Auteur auteur : data.keySet()) {
             XWPFParagraph paragraph = createBookmarkedParagraph(document, auteur.getNom() + auteur.getPrenom(), bookmarkId++);
@@ -94,10 +97,10 @@ public class WordGenerator {
                 runLivre.addCarriageReturn();
                 runLivre.setText("Parution : " + livre.getParution());
                 runLivre.addCarriageReturn();
-                if (livre.getUrl() != null) {
+                if (livre.getUrl() != null && !livre.getUrl().isEmpty()) {
                  FileInputStream is = new FileInputStream(livre.getUrl());
                  runLivre.addBreak();
-                 runLivre.addPicture(is, XWPFDocument.PICTURE_TYPE_JPEG, livre.getUrl(), Units.toEMU(100), Units.toEMU(100)); // 200x200 pixels
+                 runLivre.addPicture(is, Document.PICTURE_TYPE_JPEG, livre.getUrl(), Units.toEMU(100), Units.toEMU(100)); // 200x200 pixels
                  is.close();
                  }
                 // TO DO: Complete image inclusion
@@ -115,7 +118,6 @@ public class WordGenerator {
         run.setText("Livre Prêté");
 
         XWPFTable table = document.createTable();
-        int tableI = 1;
 
         XWPFTableRow tableRowOne = table.getRow(0);
         tableRowOne.getCell(0).setText("Titre");
@@ -126,7 +128,6 @@ public class WordGenerator {
                 XWPFTableRow tableRowTwo = table.createRow();
                 tableRowTwo.getCell(0).setText(livret.getTitre());
                 tableRowTwo.getCell(1).setText(livret.getAqui());
-                tableI++;
             }
         }
     }
@@ -141,6 +142,18 @@ public class WordGenerator {
         gardeRun.addCarriageReturn();
         gardeRun.addCarriageReturn();
         gardeRun.setText("Rapport Ma Bibliotheque");
+    }
+    private void createHeaders() {
+        XWPFHeaderFooterPolicy headerFooterPolicy = document.getHeaderFooterPolicy();
+        if (headerFooterPolicy == null) headerFooterPolicy = document.createHeaderFooterPolicy();
+        XWPFHeader header = headerFooterPolicy.createHeader(XWPFHeaderFooterPolicy.DEFAULT);
+
+        XWPFParagraph paragraph = header.createParagraph();
+        paragraph.setAlignment(ParagraphAlignment.CENTER);
+
+        XWPFRun run = paragraph.createRun();
+        run.setText(nameFile + ".docx - " + new Date().toString());
+
     }
     static XWPFHyperlinkRun createHyperlinkRunToAnchor(XWPFParagraph paragraph, String anchor) throws Exception {
         CTHyperlink cthyperLink=paragraph.getCTP().addNewHyperlink();

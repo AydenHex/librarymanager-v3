@@ -6,7 +6,6 @@ import com.tennoayden.app.business.others.WordGenerator;
 import com.tennoayden.app.business.services.BibliothequeService;
 import com.tennoayden.app.business.services.ConfigService;
 import com.tennoayden.app.gui.models.TableModel;
-import com.tennoayden.app.gui.views.FormView;
 import com.tennoayden.app.gui.views.HomeView;
 
 import javax.swing.*;
@@ -36,7 +35,7 @@ public class HomeController {
                     try {
                         chooseXML();
                     } catch (JAXBException ex) {
-                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(view, "Veuillez séléctionner un fichier valide");
                     }
                 }
             });
@@ -173,7 +172,7 @@ public class HomeController {
     public void exporter() throws Exception {
         JFileChooser choix = new JFileChooser();
         if(choix.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
-            new WordGenerator(choix.getSelectedFile().getAbsolutePath());
+            new WordGenerator(choix.getSelectedFile().getAbsolutePath(), choix.getSelectedFile().getName());
         }
     }
 
