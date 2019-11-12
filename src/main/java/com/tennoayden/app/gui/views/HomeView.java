@@ -108,6 +108,8 @@ public class HomeView extends JFrame{
 
     public JMenuItem getEditionAjouterLivre() { return this.ajouterLivre; }
 
+    public JMenuItem getInformations() { return informations; }
+
     public JTable getTable() {
         return jTable;
     }

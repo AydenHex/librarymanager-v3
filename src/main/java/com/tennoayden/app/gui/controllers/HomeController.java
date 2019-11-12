@@ -4,9 +4,11 @@ import com.tennoayden.app.business.models.Bibliotheque;
 import com.tennoayden.app.business.models.Filtre;
 import com.tennoayden.app.business.services.BibliothequeService;
 import com.tennoayden.app.business.services.ConfigService;
+import com.tennoayden.app.gui.models.InfoModel;
 import com.tennoayden.app.gui.models.TableModel;
 import com.tennoayden.app.gui.views.FormView;
 import com.tennoayden.app.gui.views.HomeView;
+import com.tennoayden.app.gui.views.InfoView;
 
 import javax.swing.*;
 import javax.xml.bind.JAXBException;
@@ -28,6 +30,8 @@ public class HomeController {
     public void initView() {
         this.reloadTable();
     }
+
+
 
     public void initController() {
             view.getFichierOuvrirMenu().addActionListener(new ActionListener() {
@@ -72,6 +76,16 @@ public class HomeController {
                     supprimerLivre();
                 }
             });
+            view.getInformations().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e)  {
+                    try {
+                        new InfoControler(new InfoModel(), new InfoView("Fenetre d'informations"));
+                    }catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
     }
 
     public void reloadTable() {
@@ -94,6 +108,8 @@ public class HomeController {
         this.reloadTable();
 
     }
+
+
     public void ajouterLivre() throws IOException {
         new FormController("Test", this);
     }

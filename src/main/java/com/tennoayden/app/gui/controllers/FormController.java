@@ -7,7 +7,7 @@ import com.tennoayden.app.business.services.BibliothequeService;
 import com.tennoayden.app.business.services.ConfigService;
 import com.tennoayden.app.gui.views.FormView;
 import com.tennoayden.app.gui.views.HomeView;
-import sun.misc.FormattedFloatingDecimal;
+//import sun.misc.FormattedFloatingDecimal;
 
 import javax.swing.*;
 import java.awt.*;
